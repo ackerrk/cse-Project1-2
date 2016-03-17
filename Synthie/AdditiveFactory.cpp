@@ -5,6 +5,8 @@
 CAdditiveFactory::CAdditiveFactory()
 {
 	m_harmonics.push_back(1);
+	m_vibrato = 0.;
+	m_vibrato_depth = 0.;
 	
 }
 
@@ -18,6 +20,7 @@ CAdditive *CAdditiveFactory::CreateInstrument(){
 	for (int i = 0; i < m_harmonics.size(); i++){
 		instrument->SetHarmonics(m_harmonics.size(),i, m_harmonics[i]);
 	}
+	//instrument->SetVibrato(m_vibrato, m_vibrato_depth);
 	return instrument;
 }
 
@@ -61,6 +64,7 @@ void CAdditiveFactory::SetNote(CNote *note)
 			value.ChangeType(VT_R8);
 			m_harmonics.push_back(value.dblVal);
 		}
+		
 
 	}
 }

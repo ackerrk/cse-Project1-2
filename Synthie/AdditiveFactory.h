@@ -12,5 +12,7 @@ public:
 
 private:
 	vector<double> m_harmonics; //list of harmonics wanted to be added together
+	double m_vibrato;
+	double m_vibrato_depth;
 };
 
