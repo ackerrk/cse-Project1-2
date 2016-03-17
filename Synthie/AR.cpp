@@ -36,7 +36,7 @@ bool CAR::Generate(){
 	}
 	else if (m_time < (m_attack)+.5){
 		//if during first .5s then increase volume x6 and slowly decay until at normal amplitude (factor *1)
-		//comment test2
+		//comment test5
 		m_amplitude_factor = 6;
 		for (double i = 0.0; i < .5; i +=.01){
 			m_frame[0] = m_source->Frame(0)*m_amplitude_factor;
