@@ -18,6 +18,8 @@ void CAdditive::Start()
 	m_ar.SetSampleRate(GetSampleRate());
 	m_ar.Start();
 	m_time = 0;
+	m_vibrato = 0.;
+	m_vibrato_depth = 0.;
 }
 
 void CAdditive::SetNote(CNote* note)
@@ -62,22 +64,16 @@ void CAdditive::SetNote(CNote* note)
 			value.ChangeType(VT_R8);
 			m_ar.SetRelease(value.dblVal);
 		}
-		/*else if (name == "h1"){
+		else if (name == "vibrato"){
 			value.ChangeType(VT_R8);
-			m_sines.AddHarmonic(0,value.dblVal);
+			m_vibrato = (value.dblVal);
+			m_sines.SetVibrato(m_vibrato);
 		}
-		else if (name == "h2"){
+		else if (name == "depth"){
 			value.ChangeType(VT_R8);
-			m_sines.AddHarmonic(1,value.dblVal);
+			m_vibrato_depth = (value.dblVal);
+			m_sines.SetVibratoDepth(m_vibrato_depth);
 		}
-		else if (name == "h3"){
-			value.ChangeType(VT_R8);
-			m_sines.AddHarmonic(2,value.dblVal);
-		}
-		else if (name == "h4"){
-			value.ChangeType(VT_R8);
-			m_sines.AddHarmonic(3,value.dblVal);
-		}*/
 	}
 }
 
@@ -89,6 +85,7 @@ bool CAdditive::Generate()
 	m_frame[1] = m_ar.Frame(1);
 
 	m_time += GetSamplePeriod();
+	m_sines.SetTime(m_time);
 
 	m_sines.Generate();
 	return valid;

@@ -28,10 +28,13 @@ public:
 	{
 		m_sines.AddHarmonic(size, i, h);
 	}
+	void SetVibrato(double vibrato, double depth){ m_sines.SetVibrato(vibrato); m_sines.SetVibratoDepth(depth); }
 
 private:
 	CAR m_ar;
 	double m_time;
 	CAddSines m_sines;
+	double m_vibrato;
+	double m_vibrato_depth;
 };
 

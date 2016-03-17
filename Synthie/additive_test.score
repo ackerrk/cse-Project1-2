@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <score bpm="120" beatspermeasure="2">
-	<instrument instrument="Additive">
-          <note measure="1" beat="1" duration="2" note="F#7" h1="1" h2="3"/>
+<instrument instrument="Additive">
+          <note measure="1" beat="1" duration="4" note="C4" h1="1" h2="3"/>
      </instrument>
-	 <instrument instrument="Subtractive" waveform="square">
-          <note measure="1" beat="1" duration="2" note="C4" filter-envelope="1"/>
+	 <instrument instrument="Additive">
+          <note measure="5" beat="1" duration="4" note="C4" h1="1" h2="3" vibrato="3.0" depth=".1"/>
+     </instrument>
+	 <instrument instrument="Additive">
+          <note measure="9" beat="1" duration="4" note="C4" h1="1" h2="3"/>
      </instrument>
 </score>
