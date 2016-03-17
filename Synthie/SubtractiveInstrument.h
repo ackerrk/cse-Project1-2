@@ -34,6 +34,7 @@ private:
 	CSawtoothWave mSawtooth;
 	CTriangleWave mTriangle;
 	CSquareWave mSquare;
+	CSubtractiveResonFilter mReson;
 
 	double mResonFrequency;
 	double mResonBandwidth;

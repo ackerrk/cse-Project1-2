@@ -104,7 +104,6 @@ void CSubtractiveInstrument::Start()
 
 	}
 
-
 	mSubtractiveEnvelope = new CSubtractiveADSREnvelope();
 
 	if (mResonFilter)
@@ -174,39 +173,52 @@ void CSubtractiveInstrument::SetNote(CNote *note)
 			mResonFrequency = value.dblVal;
 		}
 
-//		if (name == "resonbandwidth")
-//		{
-//			value.ChangeType(VT_R8);
-//			mResonBandwidth = value.dblVal;
-//		}
-//
-//		if (name == "filter-envelope")
-//		{
-//			mFilterEnvelope = true;
-//		}
+		if (name == "resonbandwidth")
+		{
+			value.ChangeType(VT_R8);
+			mResonBandwidth = value.dblVal;
+		}
+
+		if (name == "filter-envelope")
+		{
+			mFilterEnvelope = true;
+		}
 	}
 }
 
 bool CSubtractiveInstrument::Generate()
 {
-	if (mWaveform == Sawtooth)
+	mSubtractiveEnvelope->Generate();
+	if (mFilterEnvelope)
 	{
-		mSawtooth.Generate();
+		mSubtractivePitchFilter.Generate();
 	}
-	else if (mWaveform == Triangle)
+	else
 	{
-		mTriangle.Generate();
-	}
-	else if (mWaveform == Square)
-	{
-		mSquare.Generate();
+		if (mWaveform == Sawtooth)
+		{
+			mSawtooth.Generate();
+		}
+		else if (mWaveform == Triangle)
+		{
+			mTriangle.Generate();
+		}
+		else if (mWaveform == Square)
+		{
+			mSquare.Generate();
+		}
+
+		if (mResonFilter)
+		{
+			mReson.Generate();
+		}
 	}
 	
 	auto valid = mSubtractiveAmplitudeFilter.Generate();
-	// Read the component's sample and make it our resulting frame.
+	// Read the component's sample
 	m_frame[0] = mSubtractiveAmplitudeFilter.Frame(0);
 	m_frame[1] = mSubtractiveAmplitudeFilter.Frame(1);
-	// Update time
+	//  time
 	mTime += GetSamplePeriod();
 	// We return true until the time reaches the duration.
 
