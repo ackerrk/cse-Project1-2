@@ -34,18 +34,18 @@ bool CAR::Generate(){
 
 		
 	}
-	else if (m_time < (m_attack)+.5){
+	/*else if (m_time < (m_attack)+.25){
 		//if during first .5s then increase volume x6 and slowly decay until at normal amplitude (factor *1)
 		//comment test5
-		m_amplitude_factor = 6;
-		for (double i = 0.0; i < .5; i +=.01){
+		m_amplitude_factor = 1.5;
+		for (double i = 0.0; i < .25; i +=.01){
 			m_frame[0] = m_source->Frame(0)*m_amplitude_factor;
 			m_frame[1] = m_source->Frame(1)*m_amplitude_factor;
-			m_amplitude_factor -= .1;
+			m_amplitude_factor -= .06;
 		}
-	}
+	}*/
 	//if during normal time treat like normal--mroe than attack but less than total duration -release
-	else if (m_time >= (m_attack)+.5)
+	else if (m_time < (m_time-m_release))
 	{
 		m_amplitude_factor = 1.0;
 		m_frame[0] = m_source->Frame(0);
