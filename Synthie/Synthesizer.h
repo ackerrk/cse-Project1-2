@@ -8,6 +8,10 @@
 #include "OddSinesFactory.h"
 #include "WaveInstrumentFactory.h"
 #include "AdditiveFactory.h"
+#include "ChorusEffect.h"
+#include "Flange.h"
+#include "Reverb.h"
+#include "NoiseGate.h"
 
 using namespace std;
 
@@ -65,11 +69,17 @@ private:
 	int m_currentNote;          //!< The current note we are playing
 	int m_measure;              //!< The current measure
 	double m_beat;              //!< The current beat within the measure
+	bool send[5];
 
 	std::vector<CNote> m_notes;
 
 	COddSinesFactory m_oddsinesfactory;
 	CWaveInstrumentFactory m_waveinstfactory;
+
+	CChorusEffect m_chorus;
+	CFlange m_flange;
+	CReverb m_reverb;
+	CNoiseGate m_noiseGate;
 
 	CAdditiveFactory m_additivefactory;
 

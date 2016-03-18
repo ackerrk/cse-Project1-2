@@ -22,6 +22,11 @@ CSynthesizer::CSynthesizer()
 	m_secperbeat = 0.5;
 	m_beatspermeasure = 4;
 
+	for (int x = 0; x < 5; x++)
+	{
+		send[x] = false;
+	}
+
 	m_waveinstfactory.LoadFile("drumriff.wav");
 }
 
@@ -111,6 +116,30 @@ bool CSynthesizer::Generate(double * frame)
 		{
 			instrument = new CSubtractiveInstrument();
 		}
+		else if (note->Instrument() == L"Chorus")
+		{
+			send[1] = true;
+			m_chorus.SetNote(note);
+			m_chorus.Start();
+		}
+		else if (note->Instrument() == L"Flange")
+		{
+			send[2] = true;
+			m_flange.SetNote(note);
+			m_flange.Start();
+		}
+		else if (note->Instrument() == L"Reverb")
+		{
+			send[3] = true;
+			m_reverb.SetNote(note);
+			m_reverb.Start();
+		}
+		else if (note->Instrument() == L"NoiseGate")
+		{
+			send[4] = true;
+			m_noiseGate.SetNote(note);
+			m_noiseGate.Start();
+		}
 
 		// Configure the instrument object
 		if (instrument != NULL)
@@ -135,7 +164,16 @@ bool CSynthesizer::Generate(double * frame)
 	// Phase 2: Clear all channels to silence 
 	//
 
-	for (int c = 0; c<GetNumChannels(); c++)
+	double channelframes[5][2];
+	for (int i = 0; i < 5; i++)
+	{
+		for (int c = 0; c < GetNumChannels(); c++)
+		{
+			channelframes[i][c] = 0;
+		}
+	}
+
+	for (int c = 0; c < GetNumChannels(); c++)
 	{
 		frame[c] = 0;
 	}
@@ -167,9 +205,22 @@ bool CSynthesizer::Generate(double * frame)
 		{
 			// If we returned true, we have a valid sample.  Add it 
 			// to the frame.
-			for (int c = 0; c<GetNumChannels(); c++)
+			for (int x = 0; x < 5; x++)
 			{
-				frame[c] += instrument->Frame(c);
+				if (send[x])
+				{
+					instrument->SetSend(x, 1);
+				}
+			}
+
+			// If we returned true, we have a valid sample.  Add it 
+			// to the frame.
+			for (int i = 0; i < 5; i++)
+			{
+				for (int c = 0; c < GetNumChannels(); c++)
+				{
+					channelframes[i][c] += instrument->Frame(c) * instrument->Send(i);
+				}
 			}
 		}
 		else
@@ -182,6 +233,66 @@ bool CSynthesizer::Generate(double * frame)
 
 		// Move to the next instrument in the list
 		node = next;
+	}
+
+	//
+	// Phase 3a: Apply Effects
+	//
+
+	double frames[2];
+	for (int i = 0; i < GetNumChannels(); i++)
+	{
+		frames[i] = channelframes[0][i];
+	}
+
+	double cframes[2];
+	for (int i = 0; i < 2; i++)
+	{
+		cframes[i] = 0;
+	}
+
+	double fframes[2];
+	for (int i = 0; i < 2; i++)
+	{
+		fframes[i] = 0;
+	}
+
+	double rframes[2];
+	for (int i = 0; i < 2; i++)
+	{
+		rframes[i] = 0;
+	}
+
+	double nframes[2];
+	for (int i = 0; i < 2; i++)
+	{
+		nframes[i] = 0;
+	}
+
+	if (channelframes[1][0] != 0)
+	{
+		m_chorus.Process(channelframes[1], cframes, m_time);
+	}
+	else if (channelframes[2][0] != 0)
+	{
+		m_flange.Process(channelframes[1], cframes, m_time);
+	}
+	else if (channelframes[3][0] != 0)
+	{
+		m_reverb.Process(channelframes[1], cframes, m_time);
+	}
+	else if (channelframes[4][0] != 0)
+	{
+		m_noiseGate.Process(channelframes[1], cframes, m_time);
+	}
+
+	for (int i = 0; i < GetNumChannels(); i++)
+	{
+		frame[i] += frames[i];
+		frame[i] += cframes[i];
+		frame[i] += fframes[i];
+		frame[i] += rframes[i];
+		frame[i] += nframes[i];
 	}
 
 

@@ -16,11 +16,15 @@ public:
 
 	void SetSynthesizer(CSynthesizer* s){ m_synth = s; }
 
+	double Send(int i) { return m_sends[i]; }
+	void SetSend(int i, double value) { m_sends[i] = value; }
+
 private:
 	CSynthesizer* m_synth = nullptr;
 
 protected:
 	CSubtractiveAmplitudeFilter mSubtractiveAmplitudeFilter;
 	CSubtractiveEnvelope* mSubtractiveEnvelope;
+	double m_sends[5];
 };
 
