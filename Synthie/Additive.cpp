@@ -20,6 +20,8 @@ void CAdditive::Start()
 	m_time = 0;
 	m_vibrato = 0.;
 	m_vibrato_depth = 0.;
+	m_crossfading = false;
+	m_next_freq = 0.0;
 }
 
 void CAdditive::SetNote(CNote* note)
@@ -49,6 +51,7 @@ void CAdditive::SetNote(CNote* note)
 		{
 			value.ChangeType(VT_R8);
 			SetDuration(value.dblVal);
+			m_sines.SetDur(value.dblVal);
 		}
 		else if (name == "note")
 		{
@@ -73,6 +76,26 @@ void CAdditive::SetNote(CNote* note)
 			value.ChangeType(VT_R8);
 			m_vibrato_depth = (value.dblVal);
 			m_sines.SetVibratoDepth(m_vibrato_depth);
+		}
+		else if (name == "crossfading"){
+			value.ChangeType(VT_R8);
+			if ((value.dblVal) == 1.0){
+				m_crossfading = true;
+			}
+		}
+		else if (name == "to"){
+			m_next_freq = NoteToFrequency(value.bstrVal);
+			m_sines.SetCrossfading(m_crossfading, m_next_freq);
+		}
+		else if (name == "fadeout"){
+			value.ChangeType(VT_R8);
+			double f = value.dblVal;
+			m_sines.SetFadeout(f);
+		}
+		else if (name == "fadein"){
+			value.ChangeType(VT_R8);
+			double f = value.dblVal;
+			m_sines.SetFadein(f);
 		}
 	}
 }

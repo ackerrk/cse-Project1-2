@@ -28,6 +28,9 @@ public:
 	{
 		m_sines.AddHarmonic(size, i, h);
 	}
+	void SetAmps(int size, int i, double a){
+		m_sines.AddAmp(size, i, a);
+	}
 	void SetVibrato(double vibrato, double depth){ m_sines.SetVibrato(vibrato); m_sines.SetVibratoDepth(depth); }
 
 private:
@@ -36,5 +39,7 @@ private:
 	CAddSines m_sines;
 	double m_vibrato;
 	double m_vibrato_depth;
+	bool m_crossfading;
+	double m_next_freq;
 };
 
