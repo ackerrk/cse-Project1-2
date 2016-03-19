@@ -7,6 +7,7 @@ CAdditiveFactory::CAdditiveFactory()
 	m_harmonics.push_back(1);
 	m_vibrato = 0.;
 	m_vibrato_depth = 0.;
+	m_harm_amps.push_back(1);
 	
 }
 
@@ -19,6 +20,7 @@ CAdditive *CAdditiveFactory::CreateInstrument(){
 	CAdditive *instrument = new CAdditive();
 	for (int i = 0; i < m_harmonics.size(); i++){
 		instrument->SetHarmonics(m_harmonics.size(),i, m_harmonics[i]);
+		instrument->SetAmps(m_harm_amps.size(), i, m_harm_amps[i]);
 	}
 	//instrument->SetVibrato(m_vibrato, m_vibrato_depth);
 	return instrument;
@@ -64,7 +66,38 @@ void CAdditiveFactory::SetNote(CNote *note)
 			value.ChangeType(VT_R8);
 			m_harmonics.push_back(value.dblVal);
 		}
+		else if (name == "h5"){
+			value.ChangeType(VT_R8);
+			m_harmonics.push_back(value.dblVal);
+		}
+		else if (name == "h6"){
+			value.ChangeType(VT_R8);
+			m_harmonics.push_back(value.dblVal);
+		}
+		else if (name == "a1"){
+			value.ChangeType(VT_R8);
+			m_harm_amps[0] = value.dblVal;
+		}
+		else if (name == "a2"){
+			value.ChangeType(VT_R8);
+			m_harm_amps.push_back(value.dblVal);
+		}
+		else if (name == "a3"){
+			value.ChangeType(VT_R8);
+			m_harm_amps.push_back(value.dblVal);
+		}
+		else if (name == "a4"){
+			value.ChangeType(VT_R8);
+			m_harm_amps.push_back(value.dblVal);
+		}
+		else if (name == "a5"){
+			value.ChangeType(VT_R8);
+			m_harm_amps.push_back(value.dblVal);
+		}
+		else if (name == "a6"){
+			value.ChangeType(VT_R8);
+			m_harm_amps.push_back(value.dblVal);
+		}
 		
-
 	}
 }
