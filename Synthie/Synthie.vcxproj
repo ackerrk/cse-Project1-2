@@ -152,6 +152,9 @@
     <ClCompile Include="OddSines.cpp" />
     <ClCompile Include="OddSinesFactory.cpp" />
     <ClCompile Include="OddSinesInstrument.cpp" />
+    <ClCompile Include="Organ.cpp" />
+    <ClCompile Include="OrganFactory.cpp" />
+    <ClCompile Include="OrganSines.cpp" />
     <ClCompile Include="Progress.cpp" />
     <ClCompile Include="ProgressDlg.cpp" />
     <ClCompile Include="Reverb.cpp" />
@@ -202,6 +205,9 @@
     <ClInclude Include="OddSines.h" />
     <ClInclude Include="OddSinesFactory.h" />
     <ClInclude Include="OddSinesInstrument.h" />
+    <ClInclude Include="Organ.h" />
+    <ClInclude Include="OrganFactory.h" />
+    <ClInclude Include="OrganSines.h" />
     <ClInclude Include="Progress.h" />
     <ClInclude Include="ProgressDlg.h" />
     <ClInclude Include="Resource.h" />

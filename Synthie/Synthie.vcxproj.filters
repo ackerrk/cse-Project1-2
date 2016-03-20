@@ -135,19 +135,28 @@
     <ClCompile Include="SubtractiveADSREnvelope.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ChorusEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NoiseGate.cpp">
+    <ClCompile Include="Effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Flange.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NoiseGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Reverb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Organ.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OrganFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OrganSines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -281,19 +290,28 @@
     <ClInclude Include="SubtractiveADSREnvelope.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ChorusEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NoiseGate.h">
+    <ClInclude Include="Effect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Flange.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NoiseGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Reverb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Organ.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OrganFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OrganSines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

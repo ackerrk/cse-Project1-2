@@ -8,6 +8,7 @@
 #include <cmath>
 #include <algorithm>
 #include "SubtractiveInstrument.h"
+#include "Organ.h"
 
 
 CSynthesizer::CSynthesizer()
@@ -38,13 +39,11 @@ CSynthesizer::~CSynthesizer()
 void CSynthesizer::Start(void)
 {
 	/*m_time = 0;
-
 	CToneInstrument *ti = new CToneInstrument();
 	ti->SetSampleRate(GetSampleRate());
 	ti->SetFreq(440);
 	ti->SetDuration(3);
 	ti->Start();
-
 	m_instruments.push_back(ti);*/
 
 	m_instruments.clear();
@@ -57,12 +56,10 @@ void CSynthesizer::Start(void)
 bool CSynthesizer::Generate(double * frame)
 {
 	/*double sample = 0.1 * sin(2 * PI * 440 * GetTime());
-
 	for (int c = 0; c<GetNumChannels(); c++)
 	{
-		frame[c] = sample;
+	frame[c] = sample;
 	}
-
 	m_time += GetSamplePeriod();
 	return m_time < 5;*/
 
@@ -140,6 +137,10 @@ bool CSynthesizer::Generate(double * frame)
 			m_noiseGate.SetNote(note);
 			m_noiseGate.Start();
 		}
+		else if (note->Instrument() == L"Organ"){
+			m_organfactory.SetNote(note);
+			instrument = m_organfactory.CreateInstrument();
+		}
 
 		// Configure the instrument object
 		if (instrument != NULL)
@@ -151,7 +152,7 @@ bool CSynthesizer::Generate(double * frame)
 
 			instrument->SetNote(note);
 			instrument->Start();
-			
+
 
 			m_instruments.push_back(instrument);
 		}
@@ -374,7 +375,7 @@ void CSynthesizer::OpenScore(CString & filename)
 			XmlLoadScore(node);
 		}
 
-		
+
 	}
 
 	sort(m_notes.begin(), m_notes.end());
@@ -499,5 +500,6 @@ void CSynthesizer::XmlLoadNote(IXMLDOMNode * xml, std::wstring & instrument, wst
 	m_notes.push_back(CNote());
 	m_notes.back().XmlLoad(xml, instrument, waveform);
 }
+
 
 

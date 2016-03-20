@@ -12,6 +12,7 @@
 #include "Flange.h"
 #include "Reverb.h"
 #include "NoiseGate.h"
+#include "OrganFactory.h"
 
 using namespace std;
 
@@ -54,7 +55,7 @@ public:
 		m_notes.clear();
 	}
 	void CSynthesizer::OpenScore(CString & filename);
-	
+
 
 private:
 	int		m_channels;
@@ -83,10 +84,11 @@ private:
 
 	CAdditiveFactory m_additivefactory;
 
+	COrganFactory m_organfactory;
+
 private:
 	std::list<CInstrument *>  m_instruments;
 	void CSynthesizer::XmlLoadScore(IXMLDOMNode * xml);
 	void CSynthesizer::XmlLoadInstrument(IXMLDOMNode * xml);
 	void CSynthesizer::XmlLoadNote(IXMLDOMNode * xml, std::wstring & instrument, wstring& waveform);
 };
-
