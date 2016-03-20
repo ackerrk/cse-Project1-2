@@ -29,6 +29,6 @@ protected:
 	int m_wrloc;
 	int m_rdloc;
 	double mTime = 5.0;
-	std::vector<short> m_queue;
+	std::vector<double> m_queue;
 };
 

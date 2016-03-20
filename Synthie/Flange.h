@@ -12,5 +12,7 @@ public:
 	virtual void Start() override;
 
 	virtual bool Generate() override;
+private:
+	int m_count;
 };
 

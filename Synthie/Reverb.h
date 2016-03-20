@@ -12,5 +12,8 @@ public:
 	virtual void Start() override;
 
 	virtual bool Generate() override;
+
+private:
+	double m_reverb[2];
 };
 

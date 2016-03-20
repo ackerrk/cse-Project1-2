@@ -8,7 +8,6 @@
 #include <cmath>
 #include <algorithm>
 #include "SubtractiveInstrument.h"
-#include "Organ.h"
 
 
 CSynthesizer::CSynthesizer()
@@ -27,6 +26,7 @@ CSynthesizer::CSynthesizer()
 	{
 		send[x] = false;
 	}
+	m_sent = false;
 
 	m_waveinstfactory.LoadFile("drumriff.wav");
 }
@@ -39,11 +39,13 @@ CSynthesizer::~CSynthesizer()
 void CSynthesizer::Start(void)
 {
 	/*m_time = 0;
+
 	CToneInstrument *ti = new CToneInstrument();
 	ti->SetSampleRate(GetSampleRate());
 	ti->SetFreq(440);
 	ti->SetDuration(3);
 	ti->Start();
+
 	m_instruments.push_back(ti);*/
 
 	m_instruments.clear();
@@ -56,10 +58,12 @@ void CSynthesizer::Start(void)
 bool CSynthesizer::Generate(double * frame)
 {
 	/*double sample = 0.1 * sin(2 * PI * 440 * GetTime());
+
 	for (int c = 0; c<GetNumChannels(); c++)
 	{
-	frame[c] = sample;
+		frame[c] = sample;
 	}
+
 	m_time += GetSamplePeriod();
 	return m_time < 5;*/
 
@@ -118,28 +122,28 @@ bool CSynthesizer::Generate(double * frame)
 			send[1] = true;
 			m_chorus.SetNote(note);
 			m_chorus.Start();
+			m_sent = true;
 		}
 		else if (note->Instrument() == L"Flange")
 		{
 			send[2] = true;
 			m_flange.SetNote(note);
 			m_flange.Start();
+			m_sent = true;
 		}
 		else if (note->Instrument() == L"Reverb")
 		{
 			send[3] = true;
 			m_reverb.SetNote(note);
 			m_reverb.Start();
+			m_sent = true;
 		}
 		else if (note->Instrument() == L"NoiseGate")
 		{
 			send[4] = true;
 			m_noiseGate.SetNote(note);
 			m_noiseGate.Start();
-		}
-		else if (note->Instrument() == L"Organ"){
-			m_organfactory.SetNote(note);
-			instrument = m_organfactory.CreateInstrument();
+			m_sent = true;
 		}
 
 		// Configure the instrument object
@@ -152,7 +156,7 @@ bool CSynthesizer::Generate(double * frame)
 
 			instrument->SetNote(note);
 			instrument->Start();
-
+			
 
 			m_instruments.push_back(instrument);
 		}
@@ -204,8 +208,7 @@ bool CSynthesizer::Generate(double * frame)
 		// Call the generate function
 		if (instrument->Generate())
 		{
-			// If we returned true, we have a valid sample.  Add it 
-			// to the frame.
+
 			for (int x = 0; x < 5; x++)
 			{
 				if (send[x])
@@ -223,6 +226,7 @@ bool CSynthesizer::Generate(double * frame)
 					channelframes[i][c] += instrument->Frame(c) * instrument->Send(i);
 				}
 			}
+		
 		}
 		else
 		{
@@ -239,7 +243,7 @@ bool CSynthesizer::Generate(double * frame)
 	//
 	// Phase 3a: Apply Effects
 	//
-
+	
 	double frames[2];
 	for (int i = 0; i < GetNumChannels(); i++)
 	{
@@ -247,26 +251,14 @@ bool CSynthesizer::Generate(double * frame)
 	}
 
 	double cframes[2];
-	for (int i = 0; i < 2; i++)
-	{
-		cframes[i] = 0;
-	}
-
 	double fframes[2];
-	for (int i = 0; i < 2; i++)
-	{
-		fframes[i] = 0;
-	}
-
 	double rframes[2];
-	for (int i = 0; i < 2; i++)
-	{
-		rframes[i] = 0;
-	}
-
 	double nframes[2];
 	for (int i = 0; i < 2; i++)
 	{
+		cframes[i] = 0;
+		fframes[i] = 0;
+		rframes[i] = 0;
 		nframes[i] = 0;
 	}
 
@@ -274,29 +266,33 @@ bool CSynthesizer::Generate(double * frame)
 	{
 		m_chorus.Process(channelframes[1], cframes, m_time);
 	}
-	else if (channelframes[2][0] != 0)
+	if (channelframes[2][0] != 0)
 	{
-		m_flange.Process(channelframes[1], cframes, m_time);
+		m_flange.Process(channelframes[2], fframes, m_time);
 	}
-	else if (channelframes[3][0] != 0)
+	if (channelframes[3][0] != 0)
 	{
-		m_reverb.Process(channelframes[1], cframes, m_time);
+		m_reverb.Process(channelframes[3], rframes, m_time);
 	}
-	else if (channelframes[4][0] != 0)
+	if (channelframes[4][0] != 0)
 	{
-		m_noiseGate.Process(channelframes[1], cframes, m_time);
+		m_noiseGate.Process(channelframes[4], nframes, m_time);
 	}
 
 	for (int i = 0; i < GetNumChannels(); i++)
 	{
-		frame[i] += frames[i];
+		if (!m_sent){
+			frame[i] += frames[i];
+		}
+		else
+		{
+			int x = 5;
+		}
 		frame[i] += cframes[i];
 		frame[i] += fframes[i];
 		frame[i] += rframes[i];
 		frame[i] += nframes[i];
 	}
-
-
 	//
 	// Phase 4: Advance the time and beats
 	//
@@ -375,7 +371,7 @@ void CSynthesizer::OpenScore(CString & filename)
 			XmlLoadScore(node);
 		}
 
-
+		
 	}
 
 	sort(m_notes.begin(), m_notes.end());
@@ -500,6 +496,5 @@ void CSynthesizer::XmlLoadNote(IXMLDOMNode * xml, std::wstring & instrument, wst
 	m_notes.push_back(CNote());
 	m_notes.back().XmlLoad(xml, instrument, waveform);
 }
-
 
 
