@@ -30,7 +30,6 @@ COrgan *COrganFactory::CreateInstrument(){
 		instrument->SetAmplitude(i, m_amps[i]);
 	}
 
-	//instrument->SetVibrato(m_vibrato, m_vibrato_depth);
 	return instrument;
 }
 

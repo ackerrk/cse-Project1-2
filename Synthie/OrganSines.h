@@ -30,7 +30,6 @@ public:
 				m_harmonics.push_back(0);
 			}
 		}
-		//int harmonic = h;
 		m_harmonics[i] = h;
 	}
 
@@ -39,13 +38,14 @@ public:
 	void SetTime(double t){ m_time = t; }
 
 private:
-	double m_freq; //fundamental freq
-	double m_phase; //phase shift
+	double m_freq; 
+	double m_phase; 
 	vector<double> m_amps; //list of harmonics wanted to be added together
 	vector<double> m_harmonics; //list of harmonics wanted to be added together
-	double m_vibrato;//vibrato rate
-	double m_depth;//vibrato depth
+	double m_vibrato;
+	double m_depth;
 	double m_vibrato_phase;
 	double m_time;
+	double prev;
 };
 
