@@ -10,11 +10,13 @@ class CEffect :
 public:
 	virtual ~CEffect();
 
-	void SetDelay(double delay) { m_delay = delay; }
+	void SetEnd(double delay) { m_end = delay; }
 
 	void SetWet(double wet) { m_wet = wet; }
 
 	void SetDry(double dry) { m_dry = dry; }
+
+	double GetEnd(){ return m_end; }
 
 	virtual void SetNote(CNote *note) override;
 
@@ -23,7 +25,7 @@ public:
 protected:
 	CEffect();
 
-	double	m_delay;
+	double	m_end;
 	double	m_wet;
 	double	m_dry;
 	int m_wrloc;

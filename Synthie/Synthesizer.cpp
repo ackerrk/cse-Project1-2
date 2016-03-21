@@ -24,7 +24,7 @@ CSynthesizer::CSynthesizer()
 
 	for (int x = 0; x < 5; x++)
 	{
-		send[x] = false;
+		send[x] = 0;
 	}
 	m_sent = false;
 
@@ -261,22 +261,34 @@ bool CSynthesizer::Generate(double * frame)
 		rframes[i] = 0;
 		nframes[i] = 0;
 	}
-
+	m_sent = false;
 	if (channelframes[1][0] != 0)
 	{
-		m_chorus.Process(channelframes[1], cframes, m_time);
+		if (double(m_measure) < m_chorus.GetEnd()){
+			m_chorus.Process(channelframes[1], cframes, m_time);
+			m_sent = true;
+		}
 	}
 	if (channelframes[2][0] != 0)
 	{
-		m_flange.Process(channelframes[2], fframes, m_time);
+		if (double(m_measure) < m_flange.GetEnd()){
+			m_flange.Process(channelframes[2], fframes, m_time);
+			m_sent = true;
+		}
 	}
 	if (channelframes[3][0] != 0)
 	{
-		m_reverb.Process(channelframes[3], rframes, m_time);
+		if (double(m_measure) < m_reverb.GetEnd()){
+			m_reverb.Process(channelframes[3], rframes, m_time);
+			m_sent = true;
+		}
 	}
 	if (channelframes[4][0] != 0)
 	{
-		m_noiseGate.Process(channelframes[4], nframes, m_time);
+		if (double(m_measure) < m_noiseGate.GetEnd()){
+			m_noiseGate.Process(channelframes[4], nframes, m_time);
+			m_sent = true;
+		}
 	}
 
 	for (int i = 0; i < GetNumChannels(); i++)

@@ -19,12 +19,12 @@ void CFlange::Process(double *frameIn, double *frameOut, double time)
 	m_queue[m_wrloc] = frameIn[0];
 	m_queue[m_wrloc + 1] = frameIn[1];
 
-	double flange = (MAXDELAY - MINDELAY) * abs(sin(M_PI * abs(time))) + MINDELAY;
+	//double flange = (MAXDELAY - MINDELAY) * abs(sin(M_PI * abs(time))) + MINDELAY;
 	
 	frameOut[0] = m_dry * frameIn[0] + m_wet * m_queue[(m_rdloc) % QUEUESIZE];
 	frameOut[1] = m_dry * frameIn[1] + m_wet * m_queue[(m_rdloc + 1) % QUEUESIZE];
 
-	//double flange = 0.006 + sin(0.25 * 2 * M_PI * time) * 0.004;
+	double flange = 0.006 + sin(0.25 * 2 * M_PI * time) * 0.004;
 
 	int delay = int((flange*GetSampleRate()));
 

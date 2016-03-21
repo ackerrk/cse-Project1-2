@@ -46,10 +46,10 @@ void CEffect::SetNote(CNote *note)
 			value.ChangeType(VT_R8);
 			SetDry(value.dblVal);
 		}
-		else if (name == "delay")
+		else if (name == "end")
 		{
 			value.ChangeType(VT_R8);
-			SetDelay(value.dblVal);
+			SetEnd(value.dblVal);
 		}
 	}
 }

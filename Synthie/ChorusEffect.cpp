@@ -22,7 +22,7 @@ void CChorusEffect::Process(double* frameIn, double* frameOut, double time)
 
 	double length = 0.025 + sin(0.25 * 2 * M_PI * time) * 0.004;
 
-	int delay = int((length * GetSampleRate() + 0.5) + 2);
+	int delay = int((length * GetSampleRate()));
 
 	m_wrloc = (m_wrloc + 2) % QUEUESIZE;
 	m_rdloc = (m_wrloc + QUEUESIZE - delay) % QUEUESIZE;
